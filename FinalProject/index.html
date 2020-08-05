@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/4df5389a2e.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="src/style.css" />
+    <title>Weather</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <form class="form-inline">
+              <input
+                type="text"
+                class="form-control"
+                id="city-search"
+                placeholder="Enter a city"
+              />
+              <input
+                type="submit"
+                class="form-control search-button"
+                value="Search"
+              />
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="current-location"
+              >
+                <i class="fas fa-map-marker-alt"></i>
+              </button>
+            </form>
+          </div>
+          <div class="col-3">
+            <div class="btn-group" role="group" aria-label="fahrenheit-celsius">
+              <button type="button" class="btn btn-secondary" id="fahrenheit">
+                °F
+              </button>
+              <button type="button" class="btn btn-secondary" id="celsius">
+                °C
+              </button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <h1 class="temp-icon">
+          <i class="fas fa-sun"></i>
+        </h1>
+        <h1 class="temperature">
+          <span id="current-temp">
+          </span>
+          <span id="units">
+          °F
+          </span>
+        </h1>
+        <h2 class="city">
+        </h2>
+        <p class="city-specs">
+          <div id="high-low"></div>
+          <div id="description"></div>
+          <div id="feels-like"></div>
+        </p>
+        <div class="row todays-forecast">
+          <div class="col" id="current-time"></div>
+          <div class="col" id="current-date"></div>
+        </div>
+        <div class="row">
+          <div class="col" id="sunrise">
+            Sunrise: 5:46 am
+          </div>
+          <div class="col" id="sunset">Sunset: 7:38 pm</div>
+        </div>
+        <div class="row">
+          <div class="col-1">
+            <i class="far fa-sun sunrise"></i>
+          </div>
+          <div class="col">
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 0%;"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="24"
+              ></div>
+            </div>
+          </div>
+          <div class="col-1">
+            <i class="far fa-moon sunset"></i>
+          </div>
+        </div>
+        <div class="row five-day-forecast">
+          <div class="col">
+            <p class="day-one">
+              Sat<br />
+              <i class="fas fa-sun"></i><br />
+              80° | 64°
+            </p>
+          </div>
+          <div class="col">
+            <p class="day-two">
+              Sun <br />
+              <i class="fas fa-sun"></i><br />
+              78° | 63°
+            </p>
+          </div>
+          <div class="col">
+            <p class="day-three">
+              Mon<br />
+              <i class="fas fa-sun"></i><br />
+              82° | 70°
+            </p>
+          </div>
+          <div class="col">
+            <p class="day-four">
+              Tue <br />
+              <i class="fas fa-sun"></i><br />
+              82° | 72°
+            </p>
+          </div>
+          <div class="col">
+            <p class="day-five">
+              Wed<br />
+              <i class="fas fa-sun"></i><br />
+              76° | 62°
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="src/index.js"></script>
+</html>

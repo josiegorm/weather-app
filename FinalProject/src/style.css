@@ -1,0 +1,76 @@
+div .card {
+  max-width: 540px;
+  background-image: linear-gradient(to top, #0394ad 0%, #330867 100%);
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  margin: 15px auto;
+  color: #ffffff;
+  font-family: "Work Sans", sans-serif;
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.3);
+}
+form {
+  margin: 0;
+  padding: 20px 10px;
+  width: 500px;
+}
+h1,
+h2 {
+  line-height: 1.3;
+  padding: 10px 20px;
+  margin: 0;
+}
+h1 {
+  font-size: 60px;
+}
+.search-button,
+.btn {
+  color: #ffffff;
+  background-color: #0394ad;
+  border: none;
+  transition: all 100ms ease-in-out;
+  height: 38px;
+}
+.search-button:hover,
+.btn:hover {
+  background-color: #0393ada8;
+}
+.btn-group {
+  margin: 0 auto;
+  padding: 20px;
+}
+.row {
+  margin: 0;
+}
+.city-specs {
+  padding: 15px;
+}
+.form-control {
+  margin: 0 4px;
+}
+.progress {
+  height: 4px;
+  margin: 45px;
+  background-color: #330867;
+}
+.progress-bar {
+  background-color: #ffffff;
+}
+.sunrise {
+  position: relative;
+  top: 35px;
+  left: 60px;
+  color: #ffffff65;
+}
+.sunset {
+  position: relative;
+  top: 35px;
+  right: 60px;
+  color: #ffffff65;
+}
+.five-day-forecast {
+  padding-bottom: 20px;
+}
+#description {
+  text-transform: capitalize;
+}
