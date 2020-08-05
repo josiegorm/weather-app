@@ -71,6 +71,12 @@ h1 {
 .five-day-forecast {
   padding-bottom: 20px;
 }
+.github-link {
+  font-family: "Work Sans", sans-serif;
+  text-align: center;
+  font-size: smaller;
+  line-height: 1.5;
+}
 #description {
   text-transform: capitalize;
 }
