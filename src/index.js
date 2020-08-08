@@ -1,5 +1,3 @@
-// Current Time & Date
-
 function updateMinutes(currentMinutes) {
   if (currentMinutes < 10) {
     return "0" + currentMinutes;
@@ -15,68 +13,69 @@ function getTimeOfDay(currentHours) {
   }
 }
 
-let time = document.querySelector("#current-time");
-let now = new Date();
-let timeOfDay = getTimeOfDay(now.getHours());
-let hours = [
-  12,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-];
-let hour = hours[now.getHours()];
-let minutes = updateMinutes(now.getMinutes());
-time.innerHTML = `As of ${hour}:${minutes} ${timeOfDay}`;
-
-let date = document.querySelector("#current-date");
-let months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-let month = months[now.getMonth()];
-let day = now.getDate();
-let year = now.getFullYear();
-date.innerHTML = `On ${month} ${day}, ${year}`;
-
-// Current Temperature
+function displayTimeAndDate() {
+  let time = document.querySelector("#current-time");
+  let now = new Date();
+  let timeOfDay = getTimeOfDay(now.getHours());
+  let hours = [
+    12,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+  ];
+  let hour = hours[now.getHours()];
+  let minutes = updateMinutes(now.getMinutes());
+  time.innerHTML = `As of ${hour}:${minutes} ${timeOfDay}`;
+  let date = document.querySelector("#current-date");
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let month = months[now.getMonth()];
+  let day = now.getDate();
+  let year = now.getFullYear();
+  date.innerHTML = `On ${month} ${day}, ${year}`;
+}
 
 function showTemperature(response) {
-  let high = Math.round(response.data.main.temp_max);
-  let low = Math.round(response.data.main.temp_min);
+  displayTimeAndDate();
   let likeTemp = Math.round(response.data.main.feels_like);
-  document.querySelector("#current-temp").innerHTML = Math.round(
-    response.data.main.temp
-  );
+  high = Math.round(response.data.main.temp_max);
+  low = Math.round(response.data.main.temp_min);
+  fahrenheitTemperature = Math.round(response.data.main.temp);
+  document.querySelector(
+    ".temperature"
+  ).innerHTML = `${fahrenheitTemperature}°F`;
   document.querySelector("h2.city").innerHTML = response.data.name;
   document.querySelector("#high-low").innerHTML = `${high}° | ${low}°`;
   document.querySelector("#description").innerHTML =
@@ -96,8 +95,6 @@ function handleSubmit(event) {
   let city = document.querySelector("#city-search");
   searchCity(city.value);
 }
-let search = document.querySelector(".search-button");
-search.addEventListener("click", handleSubmit);
 
 function updateLocation(position) {
   let units = "imperial";
@@ -109,44 +106,22 @@ function findLocation() {
   navigator.geolocation.getCurrentPosition(updateLocation);
 }
 
-let locationButton = document.querySelector("#current-location");
-locationButton.addEventListener("click", findLocation);
-
-searchCity("Los Angeles");
-
-// Temperature Units
-
 function toggleCelsius() {
-  let units = document.querySelector("#units").innerHTML;
-  units = units.trim();
-  if (units === "°F") {
-    let fahrenheitTemperature = document.querySelector("#current-temp")
-      .textContent;
-    fahrenheitTemperature = fahrenheitTemperature.trim();
-    let heading = document.querySelector(".temperature");
-    let celsiusTemperature = Math.round(((fahrenheitTemperature - 32) * 5) / 9);
-    heading.innerHTML = `${celsiusTemperature} °C`;
-  }
+  let heading = document.querySelector(".temperature");
+  let celsiusTemperature = ((fahrenheitTemperature - 32) * 5) / 9;
+  let celsiusHigh = Math.round(((high - 32) * 5) / 9);
+  let celsiusLow = Math.round(((low - 32) * 5) / 9);
+  heading.innerHTML = `${Math.round(celsiusTemperature)}°C`;
+  document.querySelector(
+    "#high-low"
+  ).innerHTML = `${celsiusHigh}° | ${celsiusLow}°`;
 }
-let celsius = document.querySelector("#celsius");
-celsius.addEventListener("click", toggleCelsius);
 
 function toggleFahrenheit() {
-  let units = document.querySelector("#units").innerHTML;
-  units = units.trim();
-  if (units === "°C") {
-    let celsiusTemperature = document.querySelector("#current-temp")
-      .textContent;
-    celsiusTemperature = celsiusTemperature.trim();
-    let heading = document.querySelector(".temperature");
-    let fahrenheitTemperature = Math.round((celsiusTemperature * 9) / 5 + 32);
-    heading.innerHTML = `${fahrenheitTemperature} °F`;
-  }
+  let heading = document.querySelector(".temperature");
+  heading.innerHTML = `${Math.round(fahrenheitTemperature)}°F`;
+  document.querySelector("#high-low").innerHTML = `${high}° | ${low}°`;
 }
-let fahrenheit = document.querySelector("#fahrenheit");
-fahrenheit.addEventListener("click", toggleFahrenheit);
-
-// Sunrise to Sunset Bar
 
 function updateProgressBar() {
   let now = new Date();
@@ -157,3 +132,19 @@ function updateProgressBar() {
   progressBar.setAttribute("aria-valuenow", "currentHour");
 }
 updateProgressBar();
+
+let fahrenheitTemperature = null;
+
+let search = document.querySelector(".search-button");
+search.addEventListener("click", handleSubmit);
+
+let locationButton = document.querySelector("#current-location");
+locationButton.addEventListener("click", findLocation);
+
+let celsiusButton = document.querySelector("#celsius");
+celsiusButton.addEventListener("click", toggleCelsius);
+
+let fahrenheitButton = document.querySelector("#fahrenheit");
+fahrenheitButton.addEventListener("click", toggleFahrenheit);
+
+searchCity("Los Angeles");
