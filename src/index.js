@@ -81,6 +81,37 @@ function showTemperature(response) {
   document.querySelector("#description").innerHTML =
     response.data.weather[0].description;
   document.querySelector("#feels-like").innerHTML = `Feels like ${likeTemp}°`;
+  console.log(response.data.weather[0].main);
+  if (response.data.weather[0].main === "Clear") {
+    document.querySelector("h1.temp-icon").innerHTML = `
+      <i class="fas fa-sun"></i>`;
+  } else {
+    if (response.data.weather[0].main === "Clouds") {
+      document.querySelector("h1.temp-icon").innerHTML = `
+        <i class="fas fa-cloud"></i>`;
+    } else {
+      if (
+        response.data.weather[0].main === "Drizzle" ||
+        response.data.weather[0].main === "Rain"
+      ) {
+        document.querySelector("h1.temp-icon").innerHTML = `
+          <i class="fas fa-cloud-rain"></i>`;
+      } else {
+        if (response.data.weather[0].main === "Snow") {
+          document.querySelector("h1.temp-icon").innerHTML = `
+            <i class="fas fa-snowflake"></i>`;
+        } else {
+          if (response.data.weather[0].main === "Thunderstorm") {
+            document.querySelector("h1.temp-icon").innerHTML = `
+              <i class="fas fa-bolt"></i>`;
+          } else {
+            document.querySelector("h1.temp-icon").innerHTML = `
+              <i class="far fa-moon"></i>`;
+          }
+        }
+      }
+    }
+  }
 }
 
 function searchCity(city) {
