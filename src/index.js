@@ -69,7 +69,7 @@ function displayTimeAndDate() {
 
 function showTemperature(response) {
   displayTimeAndDate();
-  let likeTemp = Math.round(response.data.main.feels_like);
+  likeTemp = Math.round(response.data.main.feels_like);
   high = Math.round(response.data.main.temp_max);
   low = Math.round(response.data.main.temp_min);
   fahrenheitTemperature = Math.round(response.data.main.temp);
@@ -142,16 +142,21 @@ function toggleCelsius() {
   let celsiusTemperature = ((fahrenheitTemperature - 32) * 5) / 9;
   let celsiusHigh = Math.round(((high - 32) * 5) / 9);
   let celsiusLow = Math.round(((low - 32) * 5) / 9);
+  let celsiusLikeTemp = Math.round(((likeTemp - 32) * 5) / 9);
   heading.innerHTML = `${Math.round(celsiusTemperature)}°C`;
   document.querySelector(
     "#high-low"
   ).innerHTML = `${celsiusHigh}° | ${celsiusLow}°`;
+  document.querySelector(
+    "#feels-like"
+  ).innerHTML = `Feels like ${celsiusLikeTemp}°`;
 }
 
 function toggleFahrenheit() {
   let heading = document.querySelector(".temperature");
   heading.innerHTML = `${Math.round(fahrenheitTemperature)}°F`;
   document.querySelector("#high-low").innerHTML = `${high}° | ${low}°`;
+  document.querySelector("#feels-like").innerHTML = `Feels like ${likeTemp}°`;
 }
 
 function updateProgressBar() {
