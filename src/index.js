@@ -73,6 +73,8 @@ function showTemperature(response) {
   high = Math.round(response.data.main.temp_max);
   low = Math.round(response.data.main.temp_min);
   fahrenheitTemperature = Math.round(response.data.main.temp);
+  latitude = response.data.coord.lat;
+  longitude = response.data.coord.lon;
   document.querySelector(
     ".temperature"
   ).innerHTML = `${fahrenheitTemperature}°F`;
@@ -113,7 +115,7 @@ function showTemperature(response) {
   }
   let units = "imperial";
   let apiKey = "74759ba87cafa7b384b77efd8fb12cec";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${response.data.coord.lat}&lon=${response.data.coord.lon}&appid=${apiKey}&units=${units}`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(showForecast);
 }
 
@@ -153,6 +155,10 @@ function toggleCelsius() {
   document.querySelector(
     "#feels-like"
   ).innerHTML = `Feels like ${celsiusLikeTemp}°`;
+  let units = "metric";
+  let apiKey = "74759ba87cafa7b384b77efd8fb12cec";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(showForecast);
 }
 
 function toggleFahrenheit() {
@@ -160,6 +166,10 @@ function toggleFahrenheit() {
   heading.innerHTML = `${Math.round(fahrenheitTemperature)}°F`;
   document.querySelector("#high-low").innerHTML = `${high}° | ${low}°`;
   document.querySelector("#feels-like").innerHTML = `Feels like ${likeTemp}°`;
+  let units = "imperial";
+  let apiKey = "74759ba87cafa7b384b77efd8fb12cec";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(showForecast);
 }
 
 function updateProgressBar() {
@@ -229,14 +239,16 @@ function showForecast(response) {
     let date = new Date(forecast.dt * 1000);
     let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let dayOfTheWeek = days[date.getDay()];
-    let high = Math.round(forecast.temp.max);
-    let low = Math.round(forecast.temp.min);
+    forecastHigh = Math.round(forecast.temp.max);
+    forecastLow = Math.round(forecast.temp.min);
     forecastElement.innerHTML += `
     <div class="col">
       <p class="day-one">
         ${dayOfTheWeek}
         <br />${icon}
-        <br />${high}° | ${low}°
+        <div id="forecast-high-low"> 
+        ${forecastHigh}° | ${forecastLow}°
+        </div>
       </p>
     </div>
   `;
