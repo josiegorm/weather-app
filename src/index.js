@@ -81,7 +81,6 @@ function showTemperature(response) {
   document.querySelector("#description").innerHTML =
     response.data.weather[0].description;
   document.querySelector("#feels-like").innerHTML = `Feels like ${likeTemp}°`;
-  console.log(response.data.weather[0].main);
   if (response.data.weather[0].main === "Clear") {
     document.querySelector("h1.temp-icon").innerHTML = `
       <i class="fas fa-sun"></i>`;
@@ -112,6 +111,10 @@ function showTemperature(response) {
       }
     }
   }
+  let units = "imperial";
+  let apiKey = "74759ba87cafa7b384b77efd8fb12cec";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${response.data.coord.lat}&lon=${response.data.coord.lon}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(showForecast);
 }
 
 function searchCity(city) {
@@ -167,7 +170,6 @@ function updateProgressBar() {
   progressBar.setAttribute("style", `width: ${widthPercentage}%;`);
   progressBar.setAttribute("aria-valuenow", "currentHour");
 }
-updateProgressBar();
 
 let fahrenheitTemperature = null;
 
@@ -183,4 +185,60 @@ celsiusButton.addEventListener("click", toggleCelsius);
 let fahrenheitButton = document.querySelector("#fahrenheit");
 fahrenheitButton.addEventListener("click", toggleFahrenheit);
 
+updateProgressBar();
+
 searchCity("Los Angeles");
+
+function showForecast(response) {
+  let forecastElement = document.querySelector(".five-day-forecast");
+  let forecast = null;
+  forecastElement.innerHTML = null;
+
+  for (let index = 1; index < 6; index++) {
+    forecast = response.data.daily[index];
+    if (forecast.weather[0].main === "Clear") {
+      icon = `
+      <i class="fas fa-sun"></i>`;
+    } else {
+      if (forecast.weather[0].main === "Clouds") {
+        icon = `
+        <i class="fas fa-cloud"></i>`;
+      } else {
+        if (
+          forecast.weather[0].main === "Drizzle" ||
+          forecast.weather[0].main === "Rain"
+        ) {
+          icon = `
+          <i class="fas fa-cloud-rain"></i>`;
+        } else {
+          if (forecast.weather[0].main === "Snow") {
+            icon = `
+            <i class="fas fa-snowflake"></i>`;
+          } else {
+            if (forecast.weather[0].main === "Thunderstorm") {
+              icon = `
+              <i class="fas fa-bolt"></i>`;
+            } else {
+              icon = `
+              <i class="far fa-moon"></i>`;
+            }
+          }
+        }
+      }
+    }
+    let date = new Date(forecast.dt * 1000);
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let dayOfTheWeek = days[date.getDay()];
+    let high = Math.round(forecast.temp.max);
+    let low = Math.round(forecast.temp.min);
+    forecastElement.innerHTML += `
+    <div class="col">
+      <p class="day-one">
+        ${dayOfTheWeek}
+        <br />${icon}
+        <br />${high}° | ${low}°
+      </p>
+    </div>
+  `;
+  }
+}
