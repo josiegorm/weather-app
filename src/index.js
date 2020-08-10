@@ -13,9 +13,9 @@ function getTimeOfDay(currentHours) {
   }
 }
 
-function displayTimeAndDate() {
+function displayTimeAndDate(response) {
   let time = document.querySelector("#current-time");
-  let now = new Date();
+  let now = new Date(response.data.dt * 1000);
   let timeOfDay = getTimeOfDay(now.getHours());
   let hours = [
     12,
@@ -65,10 +65,26 @@ function displayTimeAndDate() {
   let day = now.getDate();
   let year = now.getFullYear();
   date.innerHTML = `On ${month} ${day}, ${year}`;
+
+  let sunrise = new Date(response.data.sys.sunrise * 1000);
+  let sunriseTimeOfDay = getTimeOfDay(sunrise.getHours());
+  let sunriseHour = hours[sunrise.getHours()];
+  let sunriseMinutes = updateMinutes(sunrise.getMinutes());
+  document.querySelector(
+    "#sunrise"
+  ).innerHTML = `Sunrise: ${sunriseHour}:${sunriseMinutes} ${sunriseTimeOfDay}`;
+
+  let sunset = new Date(response.data.sys.sunset * 1000);
+  let sunsetTimeOfDay = getTimeOfDay(sunset.getHours());
+  let sunsetHour = hours[sunset.getHours()];
+  let sunsetMinutes = updateMinutes(sunset.getMinutes());
+  document.querySelector(
+    "#sunset"
+  ).innerHTML = `Sunset: ${sunsetHour}:${sunsetMinutes} ${sunsetTimeOfDay}`;
 }
 
 function showTemperature(response) {
-  displayTimeAndDate();
+  displayTimeAndDate(response);
   likeTemp = Math.round(response.data.main.feels_like);
   high = Math.round(response.data.main.temp_max);
   low = Math.round(response.data.main.temp_min);
